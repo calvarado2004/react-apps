@@ -5,6 +5,11 @@ import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import ErrorPage from "./components/ErrorPage";
 import Home from "./components/home";
 import Movies from "./components/movies";
+import Genres from "./components/genres";
+import EditMovie from "./components/editMovie";
+import ManageCatalog from "./components/ManageCatalog";
+import Login from "./components/Login";
+import GraphQL from "./components/GraphQL";
 
 const router = createBrowserRouter([
     {
@@ -14,6 +19,14 @@ const router = createBrowserRouter([
         children: [
             {index: true, element:  <Home/>},
             {path: '/movies', element: <Movies/>},
+            {path: '/genres', element: <Genres/>},
+            {path: '/admin/movie/0', element: <EditMovie/>},
+            {path: '/manage-catalog', element: <ManageCatalog/>},
+            {path: '/graphql', element: <GraphQL/>},
+            {path: '/login', element: <Login/>},
+
+
+
         ]
     },
 
