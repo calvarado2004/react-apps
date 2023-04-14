@@ -2,9 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import ErrorPage from "./components/ErrorPage";
+import Home from "./components/home";
+import Movies from "./components/movies";
 
 const router = createBrowserRouter([
-    {path: '/', element: <App />},
+    {
+        path: '/',
+        element: <App />,
+        errorElement: <ErrorPage />,
+        children: [
+            {index: true, element:  <Home/>},
+            {path: '/movies', element: <Movies/>},
+        ]
+    },
 
 ])
 
