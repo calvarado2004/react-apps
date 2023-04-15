@@ -1,11 +1,13 @@
 import Home from './components/home'
 import {Link, Outlet} from "react-router-dom";
 import {useState} from "react";
+import Alert from "./components/alert";
 
 function App() {
 
   const [jwtToken, setJwtToken] = useState("");
-
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertClassName, setAlertClassName] = useState("d-none");
 
   return (
     <div className="container">
@@ -40,12 +42,13 @@ function App() {
                 </nav>
             </div>
             <div className="col-md-10">
-               <Outlet context={{
-                   jwtToken: jwtToken,
-                   setJwtToken: setJwtToken
-
-               }}/>
-
+                <Alert message={alertMessage} className={alertClassName}/>
+                <Outlet context={{
+                    jwtToken: jwtToken,
+                    setJwtToken: setJwtToken,
+                    setAlertMessage: setAlertMessage,
+                    setAlertClassName: setAlertClassName
+                }}/>
             </div>
         </div>
 
