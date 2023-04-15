@@ -16,7 +16,7 @@ const Movies = () => {
 
             },
             {
-                id: 1,
+                id: 2,
                 title: "Titanic",
                 release_date: "1997-11-18",
                 runtime: 194,
