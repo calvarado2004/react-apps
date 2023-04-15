@@ -1,7 +1,12 @@
 import Home from './components/home'
 import {Link, Outlet} from "react-router-dom";
+import {useState} from "react";
 
 function App() {
+
+  const [jwtToken, setJwtToken] = useState("");
+
+
   return (
     <div className="container">
 
@@ -10,7 +15,9 @@ function App() {
                 <h1 className="mt-3">Go, watch a movie!</h1>
             </div>
             <div className="col-12 text-end">
-                <Link to="/login"><span className="badge bg-success">Login</span> </Link>
+                {jwtToken === ""
+                    ? <Link to="/login"><span className="badge bg-success">Login</span> </Link>
+                    : <Link to="#!"><span className="badge bg-danger">Logout</span> </Link>}
             </div>
             <hr className="mb-3"/>
         </div>
@@ -22,9 +29,13 @@ function App() {
                         <Link to="/" className="list-group-item list-group-item-action">Home</Link>
                         <Link to="/movies" className="list-group-item list-group-item-action">Movies</Link>
                         <Link to="/genres" className="list-group-item list-group-item-action">Genres</Link>
-                        <Link to="/admin/movie/0" className="list-group-item list-group-item-action">Add Movie</Link>
-                        <Link to="/manage-catalog" className="list-group-item list-group-item-action">Manage Catalog</Link>
-                        <Link to="/graphql" className="list-group-item list-group-item-action">GraphQL</Link>
+                        {jwtToken !== "" &&
+                            <>
+                            <Link to="/admin/movie/0" className="list-group-item list-group-item-action">Add Movie</Link>
+                            <Link to="/manage-catalog" className="list-group-item list-group-item-action">Manage Catalog</Link>
+                            <Link to="/graphql" className="list-group-item list-group-item-action">GraphQL</Link>
+                            </>
+                        }
                     </div>
                 </nav>
             </div>
