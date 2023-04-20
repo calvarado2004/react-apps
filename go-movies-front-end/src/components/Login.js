@@ -15,17 +15,39 @@ const Login = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        if (email === "admin@example.com") {
-            console.log("email: " + email, "password: " + password);
+        // build request body
+        let payload = {
+            email: email,
+            password: password,
+        };
 
-            setJwtToken("abc");
-            setAlertClassName("d-none");
-            setAlertMessage("");
-            navigate("/");
-        } else {
-            setAlertClassName("alert-danger");
-            setAlertMessage("Invalid email or password.");
-        }
+        // send request
+        const requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            credentials: 'include',
+            body: JSON.stringify(payload)
+        };
+
+        fetch('/authenticate', requestOptions)
+            .then((response) => response.json())
+            .then(data => {
+                if (data.error) {
+                    setAlertClassName("alert-danger");
+                    setAlertMessage(data.error);
+                } else {
+                    setJwtToken(data.access_token);
+                    setAlertClassName("alert-success");
+                    setAlertMessage("Login successful");
+                    navigate('/');
+                }
+            })
+            .catch((error) => {
+                setAlertClassName("alert-danger");
+                setAlertMessage("Error: " + error);
+            });
+
+
     }
 
 
