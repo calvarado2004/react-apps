@@ -9,6 +9,7 @@ const Login = () => {
     const {setJwtToken} = useOutletContext();
     const {setAlertMessage} = useOutletContext();
     const {setAlertClassName} = useOutletContext();
+    const {toggleRefresh} = useOutletContext();
 
     const navigate = useNavigate();
 
@@ -39,6 +40,7 @@ const Login = () => {
                     setJwtToken(data.access_token);
                     setAlertClassName("alert-success");
                     setAlertMessage("Login successful");
+                    toggleRefresh(true);
                     navigate('/');
                 }
             })

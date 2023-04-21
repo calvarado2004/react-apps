@@ -1,6 +1,5 @@
-import Home from './components/home'
 import {Link, Outlet, useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import Alert from "./components/alert";
 
 function App() {
@@ -9,34 +8,38 @@ function App() {
   const [alertMessage, setAlertMessage] = useState("");
   const [alertClassName, setAlertClassName] = useState("d-none");
 
-  const [ticking, setTicking] = useState(false);
-  const [tickInterval, setTickInterval] = useState();
+  const [tickInterval, setTickInterval] = useState(100000);
 
   const navigate = useNavigate();
 
-  const logOut = () => {
-    const requestOptions = {
-        method: 'GET',
-        credentials: 'include',
 
-    };
 
-    fetch('/logout', requestOptions)
-        .catch(
-            (error) => {
-                console.log("logout failed", error);
+    const toggleRefresh = useCallback((status) => {
+        console.log("toggleRefresh clicked");
+
+        if (status) {
+            console.log("starting refresh");
+
+            let interval = setInterval(() => {
+                console.log("ticking every 1 second");
+
+            }, 100000);
+
+            if (tickInterval === 100000 ) {
+                console.log("tickInterval is 100000");
+            } else {
+                setTickInterval(interval);
+
+                console.log("tickInterval to", tickInterval);
             }
-        )
-        .finally(
-            () => {
-                setJwtToken("");
-            }
-        )
 
-    setAlertClassName("alert-success");
-    setAlertMessage("You have been logged out.");
-    navigate("/login");
-  };
+
+        } else {
+            console.log("stopping refresh");
+            setTickInterval(null)
+            clearInterval(tickInterval);
+        }
+    }, [tickInterval]);
 
   useEffect(() => {
       if (jwtToken !== "") {
@@ -51,37 +54,40 @@ function App() {
                 .then(data => {
                     if (data.access_token) {
                         setJwtToken(data.access_token);
+                        console.log("user logged in");
+                        toggleRefresh(true)
                     }
                 })
                 .catch((error) => {
                     console.log("user not logged in", error);
                 })
       }
-  }, [jwtToken]);
+  }, [jwtToken, toggleRefresh]);
 
-  const toggleRefresh = () => {
-      console.log("toggleRefresh clicked");
+    const logOut = () => {
+        const requestOptions = {
+            method: 'GET',
+            credentials: 'include',
 
-      if (!ticking) {
-          console.log("starting refresh");
+        };
 
-          let interval = setInterval(() => {
-              console.log("ticking every 1 second");
+        fetch('/logout', requestOptions)
+            .catch(
+                (error) => {
+                    console.log("logout failed", error);
+                }
+            )
+            .finally(
+                () => {
+                    setJwtToken("");
+                    toggleRefresh(false)
+                }
+            )
 
-          }, 1000);
-
-            setTickInterval(interval);
-            setTicking(true)
-            console.log("tickInterval to", tickInterval);
-
-
-      } else {
-            console.log("stopping refresh");
-            setTickInterval(null)
-            clearInterval(tickInterval);
-            setTicking(false)
-      }
-  }
+        setAlertClassName("alert-success");
+        setAlertMessage("You have been logged out.");
+        navigate("/login");
+    };
 
   return (
     <div className="container">
@@ -116,13 +122,13 @@ function App() {
                 </nav>
             </div>
             <div className="col-md-10">
-                <a className="btn btn-outline-secondary" onClick={toggleRefresh}>Toggle Ticking</a>
                 <Alert message={alertMessage} className={alertClassName}/>
                 <Outlet context={{
                     jwtToken: jwtToken,
                     setJwtToken: setJwtToken,
                     setAlertMessage: setAlertMessage,
-                    setAlertClassName: setAlertClassName
+                    setAlertClassName: setAlertClassName,
+                    toggleRefresh: toggleRefresh
                 }}/>
             </div>
         </div>
