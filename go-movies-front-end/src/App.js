@@ -12,7 +12,24 @@ function App() {
   const navigate = useNavigate();
 
   const logOut = () => {
-    setJwtToken("");
+    const requestOptions = {
+        method: 'GET',
+        credentials: 'include',
+
+    };
+
+    fetch('/logout', requestOptions)
+        .catch(
+            (error) => {
+                console.log("logout failed", error);
+            }
+        )
+        .finally(
+            () => {
+                setJwtToken("");
+            }
+        )
+
     setAlertClassName("alert-success");
     setAlertMessage("You have been logged out.");
     navigate("/login");
