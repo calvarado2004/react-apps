@@ -1,6 +1,6 @@
 import Home from './components/home'
 import {Link, Outlet, useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Alert from "./components/alert";
 
 function App() {
@@ -17,6 +17,27 @@ function App() {
     setAlertMessage("You have been logged out.");
     navigate("/login");
   };
+
+  useEffect(() => {
+      if (jwtToken !== "") {
+          const requestOptions = {
+                method: 'GET',
+                credentials: 'include',
+
+          };
+
+          fetch('/refresh', requestOptions)
+                .then((response) => response.json())
+                .then(data => {
+                    if (data.access_token) {
+                        setJwtToken(data.access_token);
+                    }
+                })
+                .catch((error) => {
+                    console.log("user not logged in", error);
+                })
+      }
+  }, [jwtToken]);
 
   return (
     <div className="container">
