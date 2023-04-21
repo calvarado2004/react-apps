@@ -64,6 +64,17 @@ const EditMovie = () => {
                         errorMsg={"Please enter a title"}
                     />
 
+                    <Input
+                        title={"Release Date"}
+                        className={"form-control"}
+                        type={"date"}
+                        name={"release_date"}
+                        value={movie.release_date}
+                        onChange={handleChange("release_date")}
+                        errorDiv={hasError("release_date") ? "text-danger" : "d-none"}
+                        errorMsg={"Please enter a release date"}
+                    />
+
                 </form>
             </div>
         </>
