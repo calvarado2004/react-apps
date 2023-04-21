@@ -30,7 +30,7 @@ const EditMovie = () => {
         release_date: "",
         runtime: 0,
         mpaa_rating: "",
-        description: "",
+        description: "    ",
     });
 
     // get id from url
@@ -111,13 +111,12 @@ const EditMovie = () => {
                     <TextArea
                         title={"Description"}
                         name={"description"}
-                        className={"form-control"}
                         value={movie.description}
                         onChange={handleChange("description")}
                         rows={3}
+                        cols={80}
                         errorDiv={hasError("description") ? "text-danger" : "d-none"}
                         errorMsg={"Please enter a description"}
-
                     />
 
                 </form>
