@@ -6,7 +6,7 @@ const Select = (props) => {
                 <option value="" disabled>{props.placeholder}</option>
                 {props.options.map((option) => {
                     return (
-                        <option key={option.id} value={option.id} label={option.name}>{option.name}</option>
+                        <option key={option.id} value={option.value} label={option.name}>{option.value}</option>
                     );
                 })}
             </select>
