@@ -78,7 +78,7 @@ const EditMovie = () => {
                         checks.push({id: g.id, checked: false, genre: g.genre});
                     })
 
-                    setMovie(m => ({...movie, genres: checks, genres_array: []}))
+                    setMovie(m => ({...m, genres: checks, genres_array: []}))
 
                 })
                 .catch((error) => {
@@ -108,6 +108,21 @@ const EditMovie = () => {
         console.log("value in handle check", event.target.value)
         console.log("is it checked", event.target.checked)
         console.log("position", position)
+
+        let tmpArr = movie.genres;
+
+        tmpArr[position].checked = !tmpArr[position].checked;
+
+        let tmpIDs = movie.genres_array;
+
+        if (!event.target.checked) {
+            tmpIDs.splice(tmpIDs.indexOf(event.target.value) );
+        } else {
+            tmpIDs.push(parseInt(event.target.value, 10));
+        }
+
+        setMovie({...movie, genres_array: tmpIDs})
+
     }
 
     return (
