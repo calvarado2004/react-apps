@@ -37,9 +37,9 @@ const Movie = () => {
         <>
             <div className="text-center">
                 <h2>Movie: {movie.title}</h2>
-                <small><em>Release Date: {movie.release_date}, {movie.runtime} minutes, Rated: {movie.mpaa_rating} </em></small>
+                <small><em>Release Date: {movie.release_date}, {movie.runtime} minutes, Rated: {movie.mpaa_rating} </em></small><br/>
                 {movie.genres.map((g, index) => (
-                    <span key={g.genres} className="badge bg-secondary me-2">{g.genres}</span>
+                    <span key={g.genre} className="badge bg-secondary me-2">{g.genre}</span>
                 ))}
                 <hr/>
                 {
