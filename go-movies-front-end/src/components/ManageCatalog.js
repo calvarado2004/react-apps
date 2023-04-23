@@ -54,7 +54,7 @@ const ManageCatalog = () => {
                     {movies.map((movie) => (
                         <tr key={movie.id}>
                             <td>
-                                <Link to={`/admin/movies/${movie.id}`}>{movie.title}</Link>
+                                <Link to={`/admin/movie/${movie.id}`}>{movie.title}</Link>
                             </td>
                             <td>{movie.release_date}</td>
                             <td>{movie.runtime}</td>
