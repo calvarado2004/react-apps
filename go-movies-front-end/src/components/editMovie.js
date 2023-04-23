@@ -289,7 +289,7 @@ const EditMovie = () => {
                         options={mpaaOptions}
                         onChange={handleChange("mpaa_rating")}
                         placeholder={"Choose..."}
-                        value={movie.mpaa_rating.name}
+                        value={movie.mpaa_rating}
                         errorDiv={hasError("mpaa_rating") ? "text-danger" : "d-none"}
                         errorMsg={"Please select a rating"}
                     />
