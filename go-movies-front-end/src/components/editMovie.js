@@ -128,6 +128,50 @@ const EditMovie = () => {
         if (errors.length > 0) {
             return false;
         }
+
+        // passed validation, save changes
+
+        const headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Authorization', `Bearer ${jwtToken}`)
+
+        let methodvar = "PUT";
+        if (movie.id > 0) {
+            methodvar = "PATCH";
+        }
+
+        const requestBody = movie;
+
+        requestBody.release_date = new Date (movie.release_date)
+        requestBody.runtime = parseInt(movie.runtime, 10);
+
+
+        const requestOptions = {
+            method: methodvar,
+            headers: headers,
+            body: JSON.stringify(requestBody),
+            credentials: 'include',
+        }
+
+        fetch(`/admin/movies/${movie.id}`, requestOptions)
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error("Something went wrong");
+                }})
+            .then(data => {
+                   if (data.error) {
+                       console.log("error", data.error)
+                   } else {
+                       navigate("/manage-catalog")
+                   }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
+
     }
 
     const handleChange = () => (event) => {
