@@ -4,6 +4,7 @@ import Input from "./form/input";
 import Select from "./form/Select";
 import TextArea from "./form/TextArea";
 import Checkbox from "./form/Checkbox";
+import Swal from "sweetalert2";
 
 const EditMovie = () => {
 
@@ -111,6 +112,16 @@ const EditMovie = () => {
                 errors.push(f.name);
             }
         })
+
+        if (movie.genres_array.length === 0) {
+           Swal.fire({
+                title: "Error",
+                text: "You must select at least one genre",
+                icon: "error",
+                confirmButtonText: "OK",
+           })
+           errors.push("genres");
+        }
 
         setErrors(errors);
 
