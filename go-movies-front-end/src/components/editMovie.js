@@ -241,6 +241,46 @@ const EditMovie = () => {
 
     }
 
+    const confirmDelete = () => {
+        Swal.fire({
+            title: "Delete Movie?",
+            text: "You won't be able to undo this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, keep it",
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                let headers = new Headers();
+                headers.append('Content-Type', 'application/json');
+                headers.append('Authorization', `Bearer ${jwtToken}`)
+                let requestOptions = {
+                    method: 'DELETE',
+                    headers: headers,
+                }
+
+                fetch(`/admin/movies/${movie.id}`, requestOptions)
+                    .then((response) => {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw new Error("Something went wrong");
+                        }})
+                    .then(data => {
+                        if (data.error) {
+                            console.log("error", data.error)
+                        } else {
+                            navigate("/manage-catalog")
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+            }
+        })
+    }
+
     if (error !== null ) {
 
         return (
@@ -340,6 +380,10 @@ const EditMovie = () => {
                         <hr/>
 
                         <button className="btn btn-primary">Save</button>
+
+                        {movie.id > 0 &&
+                            (<a href="#!" className="btn btn-danger ms-2" onClick={confirmDelete} >Delete Movie</a>)
+                        }
 
                     </form>
                 </div>
