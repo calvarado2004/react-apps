@@ -296,7 +296,6 @@ const EditMovie = () => {
                 <div className="text-center">
                     <h2>Add/Edit Movie</h2>
                     <hr/>
-                    <pre>{JSON.stringify(movie, null, 3)}</pre>
 
                     <form onSubmit={handleSubmit}>
                         <input type="hidden" name="id" value={movie.id} id="id"/>
