@@ -32,8 +32,8 @@ const GraphQL = () => {
 
             fetch(`/graph`, requestOptions)
                 .then((response) => response.json())
-                .then(data => {
-                    let theList = Object.values(data.data.search);
+                .then(response => {
+                    let theList = Object.values(response.data.search);
                     setMovies(theList);
 
                 })
