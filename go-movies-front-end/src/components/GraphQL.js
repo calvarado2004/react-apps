@@ -9,10 +9,51 @@ const GraphQL = () => {
     const [fullList, setFullList] = useState([]);
 
     // perform a search
-    const performSearch = () => {};
+    const performSearch = () => {
+
+            const payload = `
+            {
+                search(titleContains: "${searchTerm}") {
+                    id
+                    title
+                    release_date
+                    mpaa_rating
+            }
+            }`
+
+            const headers = new Headers();
+            headers.append('Content-Type', 'application/graphql');
+
+            const requestOptions = {
+                        method: 'POST',
+                        headers: headers,
+                        body: payload,
+            }
+
+            fetch(`/graph`, requestOptions)
+                .then((response) => response.json())
+                .then(data => {
+                    let theList = Object.values(data.data.search);
+                    setMovies(theList);
+
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+    };
 
     const handleChange = (event) => {
+        event.preventDefault();
 
+        let value = event.target.value;
+        setSearchTerm(value);
+
+        if (value.length > 2) {
+            performSearch();
+
+        }   else {
+            setMovies(fullList);
+        }
     };
 
     // useEffect to perform the search
