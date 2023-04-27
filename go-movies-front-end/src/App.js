@@ -25,7 +25,7 @@ function App() {
 
             };
 
-            fetch('/refresh', requestOptions)
+            fetch(`${process.env.REACT_APP_BACKEND}/refresh`, requestOptions)
                 .then((response) => response.json())
                 .then(data => {
                     if (data.access_token) {
@@ -66,7 +66,7 @@ function App() {
 
             };
 
-            fetch('/refresh', requestOptions)
+            fetch(`${process.env.REACT_APP_BACKEND}/refresh`, requestOptions)
                 .then((response) => response.json())
                 .then(data => {
                     if (data.access_token) {
@@ -88,7 +88,7 @@ function App() {
 
         };
 
-        fetch('/logout', requestOptions)
+        fetch(`${process.env.REACT_APP_BACKEND}/logout`, requestOptions)
             .catch(
                 (error) => {
                     console.log("logout failed", error);
